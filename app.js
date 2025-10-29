@@ -7,23 +7,37 @@
 let drawnedNumber = [];
 let value;
 
+speech('Welcome! This is the random number picker project');
 
 function pickNumber() {
     selectIndex('amount');
     selectIndex('fromNumber');
     selectIndex('toNumber');
-    
-for (let i = 0; i < selectIndex('amount'); i++) {
-    value = pickRandomNumber('fromNumber' , 'toNumber'); {
-    while (drawnedNumber.includes(value)) {
+
+    if (selectIndex('fromNumber') > selectIndex('toNumber')){
+        resetIndex('amount');
+        resetIndex('fromNumber');
+        resetIndex('toNumber');
+        alert('Please check if all spaces have been filled properly');
+    } else {
+        if(selectIndex('amount') >= (selectIndex('fromNumber') + selectIndex('toNumber'))){
+            resetIndex('amount');
+            resetIndex('fromNumber');
+            resetIndex('toNumber');
+            alert('Please check if all spaces have been filled properly');
+    } else {
+                for (let i = 0; i < selectIndex('amount'); i++) {
+        value = pickRandomNumber('fromNumber' , 'toNumber'); {
+        while (drawnedNumber.includes(value)) {
         value = pickRandomNumber('fromNumber' , 'toNumber');
     }
     drawnedNumber.push(value);
-    console.log(drawnedNumber);
-    }
+}
 }
 showTextOnScreen('displayResult', `<label class="texto__paragrafo">The drawn number ${singularOrPlural()} : ${drawnedNumber}.</label>`);
 alterButtonStatus();
+}
+}
 }
 
 function reset(){
@@ -47,6 +61,16 @@ function resetIndex (tag , text) {
 function showTextOnScreen(label , text){
     let blank = document.getElementById(label);
     blank.innerHTML = text;
+}
+function speech(text){
+    if ("speechSynthesis" in window) {
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-GB';
+        utterance.rate = 0.8;
+        window.speechSynthesis.speak(utterance); 
+    } else {
+        console.log('Web Speech API not supported in this browser.');
+    }
 }
 
 function pickRandomNumber(min, max){
